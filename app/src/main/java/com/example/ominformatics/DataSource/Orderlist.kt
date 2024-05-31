@@ -7,6 +7,5 @@ data class OrderList(
     val latitude: String,
     val longitude: String,
     val order_id: String,
-
     val order_no: String
 )

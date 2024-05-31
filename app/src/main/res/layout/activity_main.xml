@@ -9,9 +9,13 @@
     tools:context=".UI.activities.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/order_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_order"
+        android:paddingVertical="15dp"
+        android:clipToPadding="false"
+        android:layout_marginHorizontal="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"/>
 

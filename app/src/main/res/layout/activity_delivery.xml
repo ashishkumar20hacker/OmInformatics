@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".UI.activities.DeliveryActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Order Details -->
+            <TextView
+                android:id="@+id/orderDetailsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Order Details"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/orderNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/orderDetailsTitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/customerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/orderNo"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/customerName"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black" />
+
+            <!-- Custom Camera -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cameraCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/address"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp">
+
+                <ImageView
+                    android:id="@+id/imagePreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#000"
+                    android:scaleType="centerCrop" />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnTakePicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cameraCardView"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:text="Click" />
+
+            <!-- Delivery Charge and Amount Collected -->
+            <TextView
+                android:id="@+id/deliveryChargeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnTakePicture"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Delivery Charge"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/deliveryCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deliveryChargeTitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Amount to be collected: $10.00"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/collectedAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deliveryCharge"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Enter amount collected"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:textColorHint="#9F9C9C"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+            <!-- Delivery Status -->
+            <TextView
+                android:id="@+id/deliveryStatusTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/collectedAmount"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Delivery Status"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/deliveryStatusTitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    app:buttonTint="@color/blue"
+                    android:textColor="@color/black"
+                    android:text="Good" />
+
+                <RadioButton
+                    android:id="@+id/radioDamaged"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:buttonTint="@color/blue"
+                    android:textColor="@color/black"
+                    android:text="Damaged" />
+            </RadioGroup>
+
+            <!-- Damage Details (Visible only if Damaged is selected) -->
+            <TextView
+                android:id="@+id/damageDetailsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/radioGroupStatus"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Damage Details"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/damageDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/damageDetailsTitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColorHint="#9F9C9C"
+                android:layout_marginEnd="16dp"
+                android:hint="Describe the damage"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/damageAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/damageDetails"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Enter damage amount"
+                android:textColorHint="#9F9C9C"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/white"
+        android:layout_marginEnd="16dp"
+        android:text="Submit" />
+
+</LinearLayout>

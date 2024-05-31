@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@color/white"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="12dp">
 
     <LinearLayout
@@ -19,66 +19,83 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/order_id_tv"
+                android:id="@+id/order_no_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textColor="#058EF7"/>
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:fontFamily="@font/poppins"
                 android:paddingHorizontal="10dp"
+                android:paddingTop="10dp"
                 android:text="Customer Name"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textColor="#ABACAC"/>
+                android:textColor="#ABACAC"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/customer_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textColor="#058EF7"/>
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:fontFamily="@font/poppins"
                 android:paddingHorizontal="10dp"
+                android:paddingTop="10dp"
                 android:text="Delivery Status"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textColor="#ABACAC"/>
+                android:textColor="#ABACAC"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/delivery_status_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textColor="#058EF7"/>
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
 
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/amt_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="₹ 200"
             android:layout_gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="16sp"
-            android:textColor="#058EF7"/>
+            android:orientation="vertical"
+            android:padding="15dp">
 
+            <TextView
+                android:id="@+id/amt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="10dp"
+                android:text="₹ 200"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="60dp"
+                android:src="@drawable/invoice" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
