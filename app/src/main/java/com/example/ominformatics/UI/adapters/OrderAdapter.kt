@@ -1,12 +1,15 @@
 package com.example.ominformatics.UI.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ominformatics.DataSource.DbOrderModel
+import com.example.ominformatics.DataSource.DeliveryStatus
+import com.example.ominformatics.R
 import com.example.ominformatics.databinding.ItemOrderBinding
 
 class OrderAdapter(private val context: Context, val onItemClick: (orderId: DbOrderModel) -> Unit) :
@@ -22,10 +25,16 @@ class OrderAdapter(private val context: Context, val onItemClick: (orderId: DbOr
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val orderModel = getItem(position) ?: return
 
+        if (orderModel.delivery_status == DeliveryStatus.Delivered.status) {
+            holder.binding.deliveryStatusTv.setTextColor(Color.GREEN)
+        } else {
+            holder.binding.deliveryStatusTv.setTextColor(Color.parseColor("#058EF7"))
+        }
         holder.binding.orderNoTv.text = orderModel.order_no
         holder.binding.customerNameTv.text = orderModel.customer_name
         holder.binding.deliveryStatusTv.text = orderModel.delivery_status
         holder.binding.amtTv.text = "₹${orderModel.delivery_cost}"
+
 
         holder.itemView.setOnClickListener {
             onItemClick(orderModel)

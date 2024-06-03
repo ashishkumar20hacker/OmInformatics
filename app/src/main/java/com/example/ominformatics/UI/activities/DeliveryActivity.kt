@@ -62,6 +62,7 @@ class DeliveryActivity : AppCompatActivity() {
                 binding.customerName.text = "Customer Name:  ${order.customer_name}"
                 binding.address.text = "Delivery Address: ${order.address}"
                 binding.deliveryCharge.text = "Amount to be collected: ₹${order.delivery_cost}"
+                binding.collectedAmount.setText("${order.delivery_cost}")
 
                 if (order.imageUrl.isNotEmpty()) binding.imagePreview.setImageURI(Uri.parse(order.imageUrl))
                 binding.damageDetails.setText(order.damageDesc)
@@ -122,13 +123,11 @@ class DeliveryActivity : AppCompatActivity() {
                 // Submit button click
                 binding.btnSubmit.setOnClickListener {
                     if (validateCollectedAmount()) {
-                        saveImageToCacheDirectory()
-                        // Proceed with submission
-                        Toast.makeText(
-                            applicationContext,
-                            "Form submitted successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (order.imageUrl.isEmpty()) {
+                            saveImageToCacheDirectory()
+                        } else {
+                            updateDataInDB()
+                        }
                     }
                 }
             }
@@ -172,27 +171,34 @@ class DeliveryActivity : AppCompatActivity() {
             outputStream.flush()
             outputStream.close()
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                order.imageUrl = file.absolutePath
-                order.damageDesc = binding.damageDetails.text.toString()
-                order.anotherAmt = binding.damageAmount.text.toString().toDouble()
-                order.isDamaged =
-                    if (binding.radioGroupStatus.checkedRadioButtonId == R.id.radioDamaged) {
-                        BoolForDataBase.TRUE.status
-                    } else {
-                        BoolForDataBase.FALSE.status
-                    }
-                getOrderDao().update(order)
-                getOrderDao().updateDeliveryStatus(orderId, DeliveryStatus.Delivered.status)
-            }
-
-            Toast.makeText(this, "Image saved to cache: ${file.absolutePath}", Toast.LENGTH_SHORT)
-                .show()
-            finish()
+            order.imageUrl = file.absolutePath
+            updateDataInDB()
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun updateDataInDB() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            order.damageDesc = binding.damageDetails.text.toString()
+            order.anotherAmt = binding.damageAmount.text.toString().toDouble()
+            order.isDamaged =
+                if (binding.radioGroupStatus.checkedRadioButtonId == R.id.radioDamaged) {
+                    BoolForDataBase.TRUE.status
+                } else {
+                    BoolForDataBase.FALSE.status
+                }
+            getOrderDao().update(order)
+            getOrderDao().updateDeliveryStatus(orderId, DeliveryStatus.Delivered.status)
+        }
+        // Proceed with submission
+        Toast.makeText(
+            applicationContext,
+            "Form submitted successfully",
+            Toast.LENGTH_SHORT
+        ).show()
+        finish()
     }
 
     private fun validateCollectedAmount(): Boolean {

@@ -13,6 +13,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ominformatics.DataSource.ApiClient
@@ -27,6 +29,7 @@ import com.example.ominformatics.UI.Utils.isLocationPermissionGranted
 import com.example.ominformatics.UI.Utils.requestLocationPermission
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 import kotlin.math.asin
 import kotlin.math.cos
@@ -67,7 +70,8 @@ class OrderViewModel : ViewModel() {
     }
 
     fun observableOrderList(): LiveData<List<DbOrderModel>> {
-        val prefs: SharedPreferences = app.applicationContext.getSharedPreferences("PREFS_NAME", Context.MODE_PRIVATE)
+        val prefs: SharedPreferences =
+            app.applicationContext.getSharedPreferences("PREFS_NAME", Context.MODE_PRIVATE)
         val isFirstTime = prefs.getBoolean("PREF_FIRST_TIME", true)
 
         if (isFirstTime) {
@@ -84,13 +88,18 @@ class OrderViewModel : ViewModel() {
         return orderDao.getOrders()
     }
 
-    fun getDistanceIsLessThan50M(activity: Activity, latitude1: Double, longitude1: Double, callback: DistanceCallback) {
+    fun getDistanceIsLessThan50M(
+        activity: Activity,
+        latitude1: Double,
+        longitude1: Double,
+        callback: DistanceCallback
+    ) {
 
         if (!isLocationPermissionGranted(activity)) {
             requestLocationPermission(activity)
         } else {
             if (checkInternetConnection(activity)) {
-                getUsersCurrentLocation(activity,latitude1, longitude1) {
+                getUsersCurrentLocation(activity, latitude1, longitude1) {
                     callback.onDistanceCalculated(isWithin50Meters = it)
                 }
             } else {
@@ -104,7 +113,12 @@ class OrderViewModel : ViewModel() {
     }
 
 
-    fun getUsersCurrentLocation(activity:Activity,latitude1: Double, longitude1: Double, onCalculate: (isLess: Boolean) -> Unit) {
+    fun getUsersCurrentLocation(
+        activity: Activity,
+        latitude1: Double,
+        longitude1: Double,
+        onCalculate: (isLess: Boolean) -> Unit
+    ) {
         val locationManager = activity.getSystemService(LOCATION_SERVICE) as LocationManager
         val isGPS = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         Log.println(Log.ASSERT, TAG, "isGPS: $isGPS")
@@ -161,10 +175,33 @@ class OrderViewModel : ViewModel() {
 
         // Convert the distance to meters
         val distanceMeters = distanceKm * 1000
-println("distanceMeters $distanceMeters")
+        println("distanceMeters $distanceMeters")
 
         // Check if the distance is within 50 meters
         return distanceMeters <= 50
+    }
+
+    fun getTotalCollectedAmtInString(): LiveData<Double>{
+        return getOrderDao().getTotalCollectedAmt()
+    }
+
+    fun getTotalDelivery(): LiveData<String> {
+        val doneLiveData = orderDao.getTotalDeliveryDone()
+        val totalLiveData = orderDao.getTotalDelivery()
+
+        val result = MediatorLiveData<String>()
+
+        result.addSource(doneLiveData) { done ->
+            val total = totalLiveData.value ?: 0
+            result.value = "$done/$total"
+        }
+
+        result.addSource(totalLiveData) { total ->
+            val done = doneLiveData.value ?: 0
+            result.value = "$done/$total"
+        }
+
+        return result
     }
 
 }

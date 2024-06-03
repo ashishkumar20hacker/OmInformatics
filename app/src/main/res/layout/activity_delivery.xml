@@ -126,6 +126,7 @@
                 android:inputType="numberDecimal"
                 android:textColorHint="#9F9C9C"
                 android:maxLines="1"
+                android:visibility="gone"
                 android:textColor="@color/black" />
 
             <!-- Delivery Status -->

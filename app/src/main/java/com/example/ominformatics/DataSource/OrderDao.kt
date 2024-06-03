@@ -33,4 +33,13 @@ interface OrderDao {
     @Query("UPDATE OrderData SET deliveryStatus = :status WHERE orderId = :orderId")
     suspend fun updateDeliveryStatus(orderId: Int, status: String)
 
+    @Query("SELECT SUM(deliveryCost) FROM OrderData WHERE deliveryStatus = 'Delivered'")
+    fun getTotalCollectedAmt(): LiveData<Double>
+
+    @Query("SELECT COUNT(deliveryStatus) FROM OrderData WHERE deliveryStatus = 'Delivered'")
+    fun getTotalDeliveryDone(): LiveData<Int>
+
+    @Query("SELECT COUNT(deliveryStatus) FROM OrderData")
+    fun getTotalDelivery(): LiveData<Int>
+
 }

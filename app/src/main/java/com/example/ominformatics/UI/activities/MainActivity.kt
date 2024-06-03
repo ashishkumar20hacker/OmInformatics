@@ -46,5 +46,14 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(it)
         }
 
+        viewOrderModel.getTotalCollectedAmtInString().observe(this){
+            binding.totalAmtTv.text = "₹${it}"
+        }
+
+
+        viewOrderModel.getTotalDelivery().observe(this){
+            binding.totalDeliveriesDone.text = it
+        }
+
     }
 }
